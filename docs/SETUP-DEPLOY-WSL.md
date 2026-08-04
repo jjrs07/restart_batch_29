@@ -126,8 +126,8 @@ You should see the ReStart demo page with an **On-Premise** badge.
 - **Nothing loads in the Windows browser (WSL only)** — confirm you're on
   **WSL 2** (`wsl -l -v` from PowerShell) and that no VPN/firewall is blocking
   local traffic. Try `http://127.0.0.1/` as well.
-- **Want to start over?** See `docs/UNINSTALL-APACHE.md` in this repo for
-  clean-up steps, then re-run Step 5.
+- **Want to start over?** See the "Ubuntu / Debian (WSL)" section of
+  `docs/UNINSTALL-APACHE.md` in this repo, then re-run Step 5.
 
 ---
 

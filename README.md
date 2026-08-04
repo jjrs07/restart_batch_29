@@ -3,7 +3,8 @@
 One identical web app, deployed to **two environments** so students can *see* that
 deployment is about the **environment**, not the code.
 
-- **On-Premise** → your **WSL** machine stands in for a server you own and operate.
+- **On-Premise** → your **WSL** machine or a **RHEL-family VM** stands in for a
+  server you own and operate.
 - **Cloud** → an **AWS EC2** instance you rent.
 
 Both run the **same files** on **Apache + PHP**. The only difference is one Apache
@@ -23,9 +24,15 @@ restart-demo/
 
 ---
 
-## 1) On-Premise deploy (WSL) — the real thing
+## 1) On-Premise deploy (WSL or RHEL VM) — the real thing
 
-From your WSL terminal:
+> **Before you run `deploy.sh`:** there's a short one-time manual setup per
+> platform (cloning the repo, and on RHEL, opening the firewall) — follow the
+> full step-by-step guide for your machine before jumping to the command below:
+> - **WSL / Ubuntu VM:** [`docs/SETUP-DEPLOY-WSL.md`](docs/SETUP-DEPLOY-WSL.md)
+> - **RHEL / CentOS / Rocky / AlmaLinux VM:** [`docs/SETUP-DEPLOY-RHEL.md`](docs/SETUP-DEPLOY-RHEL.md)
+
+Once that's done, from your terminal:
 
 ```bash
 cd ~/restart-demo
@@ -39,7 +46,7 @@ It will prompt for your password, then install Apache + PHP, copy the app to
 curl -s http://localhost/api/info.php     # see the JSON the frontend reads
 ```
 
-Open **http://localhost/** in your Windows browser. The badge shows **On-Premise**.
+Open **http://localhost/** in your browser. The badge shows **On-Premise**.
 
 **Teaching point:** *you* just installed and configured the server by hand. You own
 the box, the patches, and the uptime.
