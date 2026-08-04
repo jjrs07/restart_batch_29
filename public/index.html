@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReStart Deploy Demo — On-Prem vs Cloud</title>
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">&#9650;</span>
+      <span>ReStart <strong>Deploy Demo</strong></span>
+    </div>
+    <span id="env-badge" class="badge badge--unknown">detecting&hellip;</span>
+  </header>
+
+  <main class="wrap">
+    <section class="hero card">
+      <h1>The same web app, running in two worlds.</h1>
+      <p class="lede">
+        This exact site is deployed <em>twice</em> from one identical codebase &mdash; once on an
+        <strong>on-premise</strong> server (your WSL machine) and once in the
+        <strong>cloud</strong> (an AWS EC2 instance). Nothing in the app changes.
+        Only <em>where it lives</em> and <em>how it is operated</em> change.
+      </p>
+      <p class="lede">
+        The card below is filled in live by a small backend running next to this page.
+        Notice which environment served <em>you</em> right now.
+      </p>
+    </section>
+
+    <section class="card">
+      <div class="card__head">
+        <h2>This instance</h2>
+        <button id="refresh" class="btn" type="button">Refresh</button>
+      </div>
+      <table class="kv">
+        <tbody>
+          <tr><th>Environment</th><td id="k-env">&mdash;</td></tr>
+          <tr><th>Location</th><td id="k-region">&mdash;</td></tr>
+          <tr><th>Server hostname</th><td id="k-host">&mdash;</td></tr>
+          <tr><th>Web server</th><td id="k-server">&mdash;</td></tr>
+          <tr><th>Backend</th><td id="k-backend">&mdash;</td></tr>
+          <tr><th>Server time</th><td id="k-time">&mdash;</td></tr>
+          <tr><th>Your IP (as seen by server)</th><td id="k-client">&mdash;</td></tr>
+          <tr><th>Times this instance was hit</th><td id="k-hits">&mdash;</td></tr>
+        </tbody>
+      </table>
+      <p id="status" class="status"></p>
+    </section>
+
+    <section class="grid">
+      <div class="card compare compare--onprem">
+        <h3>On-Premise (WSL stands in for your own server)</h3>
+        <ul>
+          <li><strong>You own the box.</strong> Hardware, OS, power, network &mdash; all yours.</li>
+          <li>You install &amp; patch Apache, PHP, and security updates <em>by hand</em>.</li>
+          <li>Fixed capacity. More traffic? Buy and rack more hardware.</li>
+          <li>Full control, full responsibility. Great for data that must stay in-house.</li>
+        </ul>
+      </div>
+      <div class="card compare compare--cloud">
+        <h3>Cloud (AWS EC2)</h3>
+        <ul>
+          <li><strong>You rent the box.</strong> AWS owns the hardware and data center.</li>
+          <li>Same Apache + PHP, but you can bake it into an image and clone it.</li>
+          <li>Elastic capacity. More traffic? Add instances behind a load balancer.</li>
+          <li>Pay for what you use. Fast to start, someone else handles the racks.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card takeaway">
+      <h2>The lesson</h2>
+      <p>
+        Deployment is not about the code &mdash; the code is identical here. It is about
+        the <strong>environment</strong> around it: who owns the server, who patches it, how you
+        scale, and who is on call at 3&nbsp;a.m. Learn to deploy the <em>same</em> app to both,
+        and you can work anywhere.
+      </p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    ReStart Program &middot; On-Prem &amp; Cloud Deployment Demo &middot; served by Apache
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
