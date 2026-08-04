@@ -18,23 +18,8 @@ restart-demo/
 │   ├── assets/app.js       #   asks the backend "where am I running?"
 │   └── api/info.php         #   tiny backend: reports env, host, time, hit count
 ├── deploy/deploy.sh        # installs Apache+PHP, deploys, sets onprem|cloud
-├── dev-server.py           # optional zero-install local preview (Python, no sudo)
 └── README.md
 ```
-
----
-
-## Quick preview (no install, no sudo) — optional
-
-Just to see the page immediately using Python (already on your WSL):
-
-```bash
-cd ~/restart-demo
-DEPLOY_ENV=onprem python3 dev-server.py
-# open http://localhost:8080/   — flip with DEPLOY_ENV=cloud
-```
-
-> This preview fakes the backend in Python. The **real** demo is Apache + PHP below.
 
 ---
 

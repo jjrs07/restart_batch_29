@@ -59,28 +59,12 @@ You should now see this structure:
 restart-demo/
 ├── public/            # the app (frontend + PHP backend)
 ├── deploy/deploy.sh   # installs Apache+PHP and deploys the app
-├── dev-server.py      # optional zero-install preview
 └── README.md
 ```
 
 ---
 
-## Step 4 — (Optional) Quick preview with no installs
-
-Before touching Apache, you can preview the app instantly with Python (already
-on Ubuntu, no `sudo` needed):
-
-```bash
-DEPLOY_ENV=onprem python3 dev-server.py
-```
-
-Open **http://localhost:8080/** in your browser (on WSL, your Windows browser
-can reach this directly). Press `Ctrl+C` to stop it when you're done — this
-step doesn't touch Apache, it's just a sanity check that the app files work.
-
----
-
-## Step 5 — Make the deploy script executable
+## Step 4 — Make the deploy script executable
 
 ```bash
 chmod +x deploy/deploy.sh
@@ -88,7 +72,7 @@ chmod +x deploy/deploy.sh
 
 ---
 
-## Step 6 — Run the on-premise deploy
+## Step 5 — Run the on-premise deploy
 
 ```bash
 sudo ./deploy/deploy.sh onprem
@@ -107,7 +91,7 @@ step. It takes under a minute.
 
 ---
 
-## Step 7 — Verify it worked
+## Step 6 — Verify it worked
 
 Check the backend directly from the terminal:
 
@@ -143,7 +127,7 @@ You should see the ReStart demo page with an **On-Premise** badge.
   **WSL 2** (`wsl -l -v` from PowerShell) and that no VPN/firewall is blocking
   local traffic. Try `http://127.0.0.1/` as well.
 - **Want to start over?** See `docs/UNINSTALL-APACHE.md` in this repo for
-  clean-up steps, then re-run Step 6.
+  clean-up steps, then re-run Step 5.
 
 ---
 

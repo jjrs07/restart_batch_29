@@ -4,3 +4,4 @@ __pycache__/
 # Instructor-only tooling — not needed by students, kept out of their clone
 deploy/build-user-data.sh
 deploy/user-data-cloud.sh
+dev-server.py
