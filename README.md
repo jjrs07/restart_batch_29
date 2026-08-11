@@ -12,20 +12,22 @@ for today's session and follow its `README.md`.
 |---|---|---|---|
 | 01 | **On-Prem vs Cloud — Website Deployment** | Deploy one *identical* web app two ways: on-premise (your WSL machine) and in the cloud (AWS EC2 with Apache). See that deployment is about the *environment*, not the code. | [`01-onprem-vs-cloud-website/`](01-onprem-vs-cloud-website/) |
 | 02 | **Amazon S3 — Hands-On (Console)** | Buckets, objects & keys, versioning, encryption at rest, the three access-control layers, presigned URLs, storage classes & lifecycle, and cleanup. | [`02-s3-lab/`](02-s3-lab/) |
-| 03 | **Future Labs** | Placeholder for upcoming labs (VPC, IAM, EC2 deep-dive, etc.). | [`03-future-labs/`](03-future-labs/) |
+| 03 | **Navigating the Linux File System** | Move around Linux with `pwd`, `ls`, and `cd`. Master **absolute vs relative paths** using `/`, `~`, `.`, and `..` on a sample folder tree. | [`03-navigating-linux-file-system/`](03-navigating-linux-file-system/) |
+
+More labs (VPC, IAM, EC2 deep-dive, etc.) will be added as numbered folders.
 
 ---
 
 ## 🎓 For students
 
-1. Get the materials (your instructor will share the link or a zip):
+1. Get the materials:
    ```bash
-   git clone <repo-url> restart-batch29
-   cd restart-batch29
+   git clone https://github.com/jjrs07/restart_batch_29.git
+   cd restart_batch_29
    ```
    *(Or download the ZIP and unzip it.)*
 2. Open the folder for today's lab, e.g. `02-s3-lab/`.
-3. Read that folder's `README.md` and follow along in **your own sandbox account**.
+3. Read that folder's `README.md` and follow along in **your own sandbox account / shell**.
 4. **Always do the Clean Up step** at the end of each lab so you're not billed.
 
 ---
@@ -36,7 +38,7 @@ for today's session and follow its `README.md`.
 - To add a new lab, copy the template and fill it in:
   ```bash
   mkdir 04-my-new-lab
-  cp 03-future-labs/LAB-TEMPLATE.md 04-my-new-lab/README.md
+  cp LAB-TEMPLATE.md 04-my-new-lab/README.md
   ```
 - Update the **Labs** table above with a new row so students can find it.
 - Instructor-only tooling (preview server, user-data generator) is listed in

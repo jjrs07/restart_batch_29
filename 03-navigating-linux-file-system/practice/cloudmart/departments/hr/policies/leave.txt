@@ -1,0 +1,2 @@
+Leave Policy
+Location: cloudmart/departments/hr/policies
