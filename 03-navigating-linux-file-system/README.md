@@ -1,7 +1,7 @@
 # Navigating the Linux File System — Absolute vs Relative Paths
 
 **AWS re/Start — Batch 29**
-**Duration:** 30–45 minutes
+**Duration:** 35–50 minutes
 **Format:** Follow along in your own terminal (WSL, EC2, or any Linux shell). Type every command yourself — don't copy-paste the whole thing.
 
 ---
@@ -35,6 +35,7 @@ By the end of this exercise you will be able to:
 3. Use the shortcuts `/`, `~`, `.`, `..`, and `cd -`
 4. Reach any file or folder using **either** an absolute or a relative path
 5. Read a file with `cat` to confirm you landed in the right place
+6. Use paths with **file commands** like `cp` and `cat` — not just with `cd`
 
 ---
 
@@ -54,6 +55,10 @@ By the end of this exercise you will be able to:
 > **The one rule to remember:**
 > **Absolute paths start with `/`. Relative paths don't.**
 > If a path begins with `/`, the shell reads it from the root. If it doesn't, the shell reads it starting from your current location.
+>
+> Two questions to ask yourself about **any** path you see or type:
+> - **Absolute path** → *"Where is this, starting from `/` (the root)?"*
+> - **Relative path** → *"Where is this, starting from where I am right now?"*
 
 ---
 
@@ -141,11 +146,11 @@ cat q1.txt
 
 It prints its own location — proof you navigated correctly.
 
-> **Tip — save typing with `~`:** If your repo is under your home folder, `~` replaces the `/home/<you>` part:
+> **Tip — save typing with `~`:** If your repo is under your home folder, you can put `~` at the front:
 > ```bash
 > cd ~/restart_batch_29/03-navigating-linux-file-system/practice/cloudmart
 > ```
-> `~` is still an absolute path (it expands to `/home/<you>`), it's just shorter.
+> `~` is **not** a path by itself — it's a **shell shortcut for your home directory**. Before the command runs, the shell does **tilde expansion**: it swaps `~` for your real home. So `~/practice` becomes something like `/home/ec2-user/practice`. *After* that swap, the path starts with `/`, so what actually runs is an ordinary **absolute path** — just quicker to type.
 
 > **Teaching point:** Scripts and cron jobs almost always use **absolute paths**, because they can run from any working directory and must not guess where "here" is.
 
@@ -224,9 +229,114 @@ pwd
 
 ---
 
-## Part 6 — Challenges (10 min)
+## Part 6 — Paths work with *commands*, not just `cd` (7 min)
 
-Do these **without peeking** at `SOLUTIONS.md`. For each one, get there, run `pwd` to prove it, and `cat` a file to confirm. Start each challenge from base camp (`cloudmart`) unless told otherwise.
+So far you've used paths with `cd` to move around. Here's the bigger idea:
+**almost every Linux command that touches a file takes a path** — and those paths
+follow the exact same absolute-vs-relative rules you just learned.
+
+Let's prove it with `cp` (copy). Its shape is `cp <source> <destination>` — **two** paths.
+
+### 6a. Copy using relative paths
+
+1. Start at base camp:
+
+```bash
+cd ~/restart_batch_29/03-navigating-linux-file-system/practice/cloudmart
+pwd
+```
+
+2. Make a backup of HR's leave policy — **both paths are relative** (no leading `/`):
+
+```bash
+cp departments/hr/policies/leave.txt departments/hr/leave-backup.txt
+```
+
+3. Check it worked:
+
+```bash
+ls departments/hr
+cat departments/hr/leave-backup.txt
+```
+
+**Checkpoint:** `ls departments/hr` now shows `leave-backup.txt` next to `employees.txt` and `policies`.
+
+> **Ask yourself:** *Are the source and destination absolute or relative?*
+> **Both are relative** — neither begins with `/`. Linux resolved each one starting
+> from where you're standing (`cloudmart`). If you ran the exact same command from a
+> different folder, it would look for `departments/...` in the wrong place and fail.
+
+### 6b. The same copy using absolute paths
+
+Relative paths depend on where you are. Absolute paths don't — they work from anywhere. Let's prove it by first resetting, then moving somewhere unrelated.
+
+1. Reset the environment to a clean state (this also removes the backup from 6a):
+
+```bash
+cd ~/restart_batch_29/03-navigating-linux-file-system
+./setup.sh
+```
+
+2. Jump somewhere completely unrelated:
+
+```bash
+cd /
+pwd        # you're at the root now — nowhere near cloudmart
+```
+
+3. Run the **same** copy, but with **absolute paths**. Replace `/home/<you>` with your real home from Part 1 (or use `~`):
+
+```bash
+cp ~/restart_batch_29/03-navigating-linux-file-system/practice/cloudmart/departments/hr/policies/leave.txt \
+   ~/restart_batch_29/03-navigating-linux-file-system/practice/cloudmart/departments/hr/leave-backup.txt
+```
+
+4. Confirm — with an absolute path again, since you're still at `/`:
+
+```bash
+ls ~/restart_batch_29/03-navigating-linux-file-system/practice/cloudmart/departments/hr
+```
+
+**Checkpoint:** `leave-backup.txt` is there — even though you ran the command from `/`.
+
+> **The lesson in one line:**
+> **Relative paths depend on your current directory. Absolute paths work regardless of it.**
+> The relative copy in 6a only worked because you were standing in `cloudmart`.
+> This absolute copy worked from `/` — it would work from *anywhere*.
+
+### 6c. Mixing path styles in one command
+
+The source and destination don't have to use the same style — you can mix them.
+
+1. Go back to base camp so the relative source makes sense:
+
+```bash
+cd ~/restart_batch_29/03-navigating-linux-file-system/practice/cloudmart
+```
+
+2. Copy the leave policy into `/tmp` — **relative source, absolute destination**:
+
+```bash
+cp departments/hr/policies/leave.txt /tmp/leave.txt
+cat /tmp/leave.txt
+```
+
+> **Read the two paths:**
+> - `departments/hr/policies/leave.txt` — **relative** (no leading `/`), found starting from `cloudmart` where you're standing.
+> - `/tmp/leave.txt` — **absolute** (starts with `/`), the system-wide temp folder.
+>
+> Linux evaluates each path on its own, so one command can happily use one of each.
+
+> **Teaching point — the big one:** Paths are **not** just for navigation. Commands like
+> `cat`, `cp`, `mv`, `rm`, and `ls` all operate on paths. You do **not** have to `cd` into
+> a folder before touching a file — you can name the file by its path from wherever you
+> are. `cd` moves *you*; a path tells a command *which file to act on*.
+
+---
+
+## Part 7 — Challenges (12 min)
+
+Do these **without peeking** at `SOLUTIONS.md`. For each one, run `pwd` and `ls` (or `cat`) to prove it worked. Start each challenge from base camp (`cloudmart`) unless told otherwise.
 
 1. Go to **Project Beta** using a **relative** path, then `cat` its `README.txt`.
 2. From Project Beta, go to the **HR policies** folder using a **relative** path (hint: lots of `..`).
@@ -234,7 +344,10 @@ Do these **without peeking** at `SOLUTIONS.md`. For each one, get there, run `pw
 4. From the 2025 report, reach the **2026** report using a **relative** path (they're siblings).
 5. Go **home** with a single word, then return to where you were with a single command.
 6. From base camp, reach `alpha/notes.txt` and read it **without using `cd`** — just `cat` a relative path.
-7. **Bonus:** What does `cd ../../../../../../..` do from deep inside the tree? Try it, run `pwd`, and explain why you can't go higher than `/`.
+7. From base camp, **copy** `finance/budget.txt` into the `finance/reports/2026` folder using **only relative paths**. Verify with `ls`.
+8. From `/`, **copy** CloudMart's top-level `README.txt` to `/tmp/cloudmart-readme.txt` using **absolute paths**. `cat` it to confirm.
+9. **Spot the path styles:** in the command `cp departments/hr/policies/leave.txt /tmp/leave.txt`, which argument is a **relative** path and which is **absolute**? How can you tell?
+10. **Bonus:** What does `cd ../../../../../../..` do from deep inside the tree? Try it, run `pwd`, and explain why you can't go higher than `/`.
 
 Check your commands against [`SOLUTIONS.md`](SOLUTIONS.md) when you're done.
 
@@ -242,7 +355,13 @@ Check your commands against [`SOLUTIONS.md`](SOLUTIONS.md) when you're done.
 
 ## Reset / Clean Up
 
-- To **reset** the tree to its original state (e.g. after deleting files): run `./setup.sh` again.
+- To **reset** the tree to its original state (e.g. after the copy exercises, or after deleting files): run `./setup.sh` again. It rebuilds a fresh `cloudmart/`, so any `leave-backup.txt` or other copies you made inside `practice/` simply disappear.
+- The mixing exercise copies a file into `/tmp` (outside `practice/`, so `setup.sh` won't touch it). `/tmp` clears on reboot, or remove the copies now:
+
+```bash
+rm -f /tmp/leave.txt /tmp/cloudmart-readme.txt
+```
+
 - To **remove** the practice files entirely:
 
 ```bash
@@ -253,10 +372,12 @@ rm -rf 03-navigating-linux-file-system/practice
 
 ## Quick Reference Card
 
-- **Absolute path** = starts with `/`, works from anywhere: `/home/you/dir`
-- **Relative path** = no leading `/`, starts from `pwd`: `departments/hr`
+- **Absolute path** = starts with `/`, works from anywhere: `/home/you/dir` → *"where is this, starting from `/`?"*
+- **Relative path** = no leading `/`, starts from `pwd`: `departments/hr` → *"where is this, starting from where I am now?"*
+- **Paths aren't just for `cd`** — `cat`, `cp`, `mv`, `rm`, and `ls` all take paths too. No need to `cd` in first.
+- `~` = a shortcut the shell expands to your home dir (then it's an absolute path)
 - `pwd` — where am I? · `ls` — what's here? · `cd` — go there
-- `~` = home · `/` = root · `.` = here · `..` = up one · `cd -` = previous dir
+- `/` = root · `.` = here · `..` = up one · `cd -` = previous dir
 - Lost? Run **`pwd`** first, then decide if your path should be absolute or relative.
 
 ---
@@ -269,6 +390,8 @@ rm -rf 03-navigating-linux-file-system/practice
 4. What does `cd -` do?
 5. Why do you type `./setup.sh` and not just `setup.sh`?
 6. What is the one command that always tells you where you are?
+7. In `cp reports/2026/q1.txt /tmp/q1.txt`, which argument is a relative path and which is absolute — and how can you tell at a glance?
+8. True or false: you must `cd` into a folder before you can read a file inside it. Explain.
 
 ---
 

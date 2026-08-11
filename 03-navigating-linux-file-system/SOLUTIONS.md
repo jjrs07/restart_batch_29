@@ -3,7 +3,7 @@
 > Try the challenges yourself first! These assume you start at **base camp**:
 > `.../practice/cloudmart`. Replace `~/restart_batch_29` with wherever you cloned the repo.
 
-## Part 6 — Challenges
+## Part 7 — Challenges
 
 **1. Go to Project Beta (relative), then cat its README:**
 ```bash
@@ -45,7 +45,28 @@ cd -          # -> back to where you were
 cat departments/engineering/projects/alpha/notes.txt
 ```
 
-**7. Bonus — `cd ../../../../../../..`:**
+**7. Copy `finance/budget.txt` into `finance/reports/2026` (relative), from base camp:**
+```bash
+cp departments/finance/budget.txt departments/finance/reports/2026/budget.txt
+ls departments/finance/reports/2026
+```
+Both paths are **relative** (neither starts with `/`), so Linux resolves them from `cloudmart` where you're standing.
+
+**8. From `/`, copy CloudMart's top `README.txt` to `/tmp` (absolute):**
+```bash
+cd /
+cp ~/restart_batch_29/03-navigating-linux-file-system/practice/cloudmart/README.txt /tmp/cloudmart-readme.txt
+cat /tmp/cloudmart-readme.txt
+```
+The source starts with `~` (which expands to `/home/<you>/...`, an **absolute** path), so it works even though you're sitting at `/`. `/tmp/cloudmart-readme.txt` is **absolute** too. A relative source like `README.txt` would have failed here — there's no `README.txt` at `/`.
+
+**9. Spot the path styles** in `cp departments/hr/policies/leave.txt /tmp/leave.txt`:
+- `departments/hr/policies/leave.txt` → **relative** — it does **not** begin with `/`, so it's read from the current directory.
+- `/tmp/leave.txt` → **absolute** — it **begins with `/`**, so it's read from the root.
+
+How to tell at a glance: **look at the first character. A leading `/` means absolute; anything else means relative.**
+
+**10. Bonus — `cd ../../../../../../..`:**
 It walks up seven levels. Once you reach `/` (the root), extra `..` just stays at `/` — you **cannot go higher than root**, because root has no parent. Verify:
 ```bash
 cd /
@@ -69,6 +90,8 @@ pwd     # still shows /
 4. `cd -` jumps back to the **previous** directory you were in (a toggle between two locations).
 5. `./` means "in **this** folder." Without it, the shell only looks in the directories listed in `$PATH`, and your local `setup.sh` isn't there, so it wouldn't be found.
 6. `pwd` (print working directory).
+7. `reports/2026/q1.txt` is **relative** (no leading `/`); `/tmp/q1.txt` is **absolute** (leading `/`). Tell them apart by the first character — a leading `/` = absolute.
+8. **False.** Commands like `cat`, `cp`, `mv`, and `rm` take a path, so you can act on a file from anywhere by naming its path (relative or absolute). `cd` moves *you*; it isn't required just to read or copy a file.
 
 ---
 
