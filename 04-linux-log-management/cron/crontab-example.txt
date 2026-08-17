@@ -1,0 +1,21 @@
+# Example only: do not paste it without checking the path on your machine.
+# The actual path depends on where you cloned the repository.
+
+*/5 * * * * /home/ec2-user/restart_batch_29/04-linux-log-management/scripts/generate-log.sh
+
+# Cron fields
+#
+#  ┌───────────── minute (0-59)
+#  │ ┌─────────── hour (0-23)
+#  │ │ ┌───────── day-of-month (1-31)
+#  │ │ │ ┌─────── month (1-12)
+#  │ │ │ │ ┌───── day-of-week (0-7; Sunday is 0 or 7)
+#  │ │ │ │ │
+#  * * * * * command
+#
+# */5 * * * * means every five minutes: 00:00, 00:05, 00:10, ... 23:55.
+# 5 * * * * means minute 5 of every hour: 00:05, 01:05, 02:05, ...
+# 0 */5 * * * means every five hours at minute 0: 00:00, 05:00, 10:00, ...
+#
+# An asterisk (*) does NOT mean disabled. It means every possible value for
+# that field. Edit your own crontab manually with: crontab -e
