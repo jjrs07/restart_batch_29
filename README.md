@@ -14,6 +14,7 @@ for today's session and follow its `README.md`.
 | 02 | **Amazon S3 — Hands-On (Console)** | Buckets, objects & keys, versioning, encryption at rest, the three access-control layers, presigned URLs, storage classes & lifecycle, and cleanup. | [`02-s3-lab/`](02-s3-lab/) |
 | 03 | **Navigating the Linux File System** | Move around Linux with `pwd`, `ls`, and `cd`. Master **absolute vs relative paths** using `/`, `~`, `.`, and `..` on a sample folder tree. | [`03-navigating-linux-file-system/`](03-navigating-linux-file-system/) |
 | 04 | **Linux Log Management** | Generate logs, automate them with cron, estimate log growth, configure logrotate retention, and troubleshoot Linux services with `journalctl`. | [`04-linux-log-management/`](04-linux-log-management/) |
+| 05 | **Downloading with curl and wget** | Compare `curl` and `wget`, download the AWS CLI installer with both tools, and choose the right command for common use cases. | [`05-curl-vs-wget/`](05-curl-vs-wget/) |
 
 More labs (VPC, IAM, EC2 deep-dive, etc.) will be added as numbered folders.
 
