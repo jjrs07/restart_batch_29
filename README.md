@@ -22,7 +22,7 @@ More labs (VPC, IAM, EC2 deep-dive, etc.) will be added as numbered folders.
 
 ## 📖 References
 
-- **IPv4 Subnetting Cheat Sheet:** [GitHub-friendly Markdown](references/subnetting/) · [Static HTML](references/subnetting/index.html)
+- **IPv4 Subnetting Cheat Sheet:** [GitHub-friendly Markdown](references/subnetting/) · [View rendered HTML](https://jjrs07.github.io/restart_batch_29/references/subnetting/)
 
 ---
 
