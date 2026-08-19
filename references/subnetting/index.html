@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="IPv4 subnetting reference for CIDR prefixes, subnet masks, address counts, and sample ranges.">
+  <title>IPv4 Subnetting Cheat Sheet</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --background: #f6f8fa;
+      --surface: #ffffff;
+      --text: #1f2328;
+      --muted: #59636e;
+      --border: #d0d7de;
+      --accent: #0969da;
+      --header: #ddf4ff;
+      --stripe: #f6f8fa;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background: #0d1117;
+        --surface: #161b22;
+        --text: #e6edf3;
+        --muted: #8d96a0;
+        --border: #30363d;
+        --accent: #58a6ff;
+        --header: #1f3a52;
+        --stripe: #1c2128;
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--text);
+      font: 16px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    main {
+      width: min(1500px, calc(100% - 2rem));
+      margin: 2rem auto;
+      padding: clamp(1rem, 3vw, 2.5rem);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    h1 { margin-top: 0; line-height: 1.2; }
+    h2 { margin-top: 2rem; }
+    p, li { max-width: 80ch; }
+    .intro { color: var(--muted); font-size: 1.08rem; }
+
+    .note {
+      margin: 1.5rem 0;
+      padding: 1rem;
+      border-left: 4px solid var(--accent);
+      background: var(--stripe);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    th, td {
+      padding: .65rem .75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      background: var(--header);
+    }
+
+    tbody tr:nth-child(even) { background: var(--stripe); }
+    tbody tr:last-child td { border-bottom: 0; }
+    .number { text-align: right; }
+    code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+    a { color: var(--accent); }
+
+    footer {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    @media print {
+      body { background: white; color: black; font-size: 9px; }
+      main { width: 100%; margin: 0; padding: 0; border: 0; }
+      th { position: static; }
+      .table-wrap { overflow: visible; border-color: #999; }
+      a { color: black; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>IPv4 Subnetting Cheat Sheet</h1>
+      <p class="intro">Quick reference for IPv4 CIDR prefixes, subnet masks, address counts, and example address ranges.</p>
+    </header>
+
+    <section aria-labelledby="reading-heading">
+      <h2 id="reading-heading">How to read the table</h2>
+      <ul>
+        <li><strong>Prefix bits</strong> identify the network portion of the address.</li>
+        <li><strong>Host bits</strong> are calculated as <code>32 - prefix bits</code>.</li>
+        <li><strong>Total addresses</strong> are calculated as <code>2 ^ host bits</code> and include network and broadcast addresses where applicable.</li>
+        <li><strong>Sample range</strong> shows the complete block containing <code>198.168.0.0</code>. It is an illustration, not a reserved documentation range.</li>
+      </ul>
+      <aside class="note">
+        <strong>Note:</strong> Traditional subnets usually reserve the first address as the network address and the last as the broadcast address. <code>/31</code> is commonly used for point-to-point links, while <code>/32</code> identifies a single host.
+      </aside>
+    </section>
+
+    <section aria-labelledby="reference-heading">
+      <h2 id="reference-heading">CIDR reference</h2>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable CIDR reference table">
+        <table>
+          <thead>
+            <tr><th scope="col">CIDR</th><th scope="col" class="number">Host bits</th><th scope="col" class="number">Total addresses</th><th scope="col">Subnet mask</th><th scope="col">Binary subnet mask</th><th scope="col">Sample range</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>/32</code></td><td class="number">0</td><td class="number">1</td><td><code>255.255.255.255</code></td><td><code>11111111.11111111.11111111.11111111</code></td><td><code>198.168.0.0</code></td></tr>
+            <tr><td><code>/31</code></td><td class="number">1</td><td class="number">2</td><td><code>255.255.255.254</code></td><td><code>11111111.11111111.11111111.11111110</code></td><td><code>198.168.0.0 – 198.168.0.1</code></td></tr>
+            <tr><td><code>/30</code></td><td class="number">2</td><td class="number">4</td><td><code>255.255.255.252</code></td><td><code>11111111.11111111.11111111.11111100</code></td><td><code>198.168.0.0 – 198.168.0.3</code></td></tr>
+            <tr><td><code>/29</code></td><td class="number">3</td><td class="number">8</td><td><code>255.255.255.248</code></td><td><code>11111111.11111111.11111111.11111000</code></td><td><code>198.168.0.0 – 198.168.0.7</code></td></tr>
+            <tr><td><code>/28</code></td><td class="number">4</td><td class="number">16</td><td><code>255.255.255.240</code></td><td><code>11111111.11111111.11111111.11110000</code></td><td><code>198.168.0.0 – 198.168.0.15</code></td></tr>
+            <tr><td><code>/27</code></td><td class="number">5</td><td class="number">32</td><td><code>255.255.255.224</code></td><td><code>11111111.11111111.11111111.11100000</code></td><td><code>198.168.0.0 – 198.168.0.31</code></td></tr>
+            <tr><td><code>/26</code></td><td class="number">6</td><td class="number">64</td><td><code>255.255.255.192</code></td><td><code>11111111.11111111.11111111.11000000</code></td><td><code>198.168.0.0 – 198.168.0.63</code></td></tr>
+            <tr><td><code>/25</code></td><td class="number">7</td><td class="number">128</td><td><code>255.255.255.128</code></td><td><code>11111111.11111111.11111111.10000000</code></td><td><code>198.168.0.0 – 198.168.0.127</code></td></tr>
+            <tr><td><code>/24</code></td><td class="number">8</td><td class="number">256</td><td><code>255.255.255.0</code></td><td><code>11111111.11111111.11111111.00000000</code></td><td><code>198.168.0.0 – 198.168.0.255</code></td></tr>
+            <tr><td><code>/23</code></td><td class="number">9</td><td class="number">512</td><td><code>255.255.254.0</code></td><td><code>11111111.11111111.11111110.00000000</code></td><td><code>198.168.0.0 – 198.168.1.255</code></td></tr>
+            <tr><td><code>/22</code></td><td class="number">10</td><td class="number">1,024</td><td><code>255.255.252.0</code></td><td><code>11111111.11111111.11111100.00000000</code></td><td><code>198.168.0.0 – 198.168.3.255</code></td></tr>
+            <tr><td><code>/21</code></td><td class="number">11</td><td class="number">2,048</td><td><code>255.255.248.0</code></td><td><code>11111111.11111111.11111000.00000000</code></td><td><code>198.168.0.0 – 198.168.7.255</code></td></tr>
+            <tr><td><code>/20</code></td><td class="number">12</td><td class="number">4,096</td><td><code>255.255.240.0</code></td><td><code>11111111.11111111.11110000.00000000</code></td><td><code>198.168.0.0 – 198.168.15.255</code></td></tr>
+            <tr><td><code>/19</code></td><td class="number">13</td><td class="number">8,192</td><td><code>255.255.224.0</code></td><td><code>11111111.11111111.11100000.00000000</code></td><td><code>198.168.0.0 – 198.168.31.255</code></td></tr>
+            <tr><td><code>/18</code></td><td class="number">14</td><td class="number">16,384</td><td><code>255.255.192.0</code></td><td><code>11111111.11111111.11000000.00000000</code></td><td><code>198.168.0.0 – 198.168.63.255</code></td></tr>
+            <tr><td><code>/17</code></td><td class="number">15</td><td class="number">32,768</td><td><code>255.255.128.0</code></td><td><code>11111111.11111111.10000000.00000000</code></td><td><code>198.168.0.0 – 198.168.127.255</code></td></tr>
+            <tr><td><code>/16</code></td><td class="number">16</td><td class="number">65,536</td><td><code>255.255.0.0</code></td><td><code>11111111.11111111.00000000.00000000</code></td><td><code>198.168.0.0 – 198.168.255.255</code></td></tr>
+            <tr><td><code>/15</code></td><td class="number">17</td><td class="number">131,072</td><td><code>255.254.0.0</code></td><td><code>11111111.11111110.00000000.00000000</code></td><td><code>198.168.0.0 – 198.169.255.255</code></td></tr>
+            <tr><td><code>/14</code></td><td class="number">18</td><td class="number">262,144</td><td><code>255.252.0.0</code></td><td><code>11111111.11111100.00000000.00000000</code></td><td><code>198.168.0.0 – 198.171.255.255</code></td></tr>
+            <tr><td><code>/13</code></td><td class="number">19</td><td class="number">524,288</td><td><code>255.248.0.0</code></td><td><code>11111111.11111000.00000000.00000000</code></td><td><code>198.168.0.0 – 198.175.255.255</code></td></tr>
+            <tr><td><code>/12</code></td><td class="number">20</td><td class="number">1,048,576</td><td><code>255.240.0.0</code></td><td><code>11111111.11110000.00000000.00000000</code></td><td><code>198.160.0.0 – 198.175.255.255</code></td></tr>
+            <tr><td><code>/11</code></td><td class="number">21</td><td class="number">2,097,152</td><td><code>255.224.0.0</code></td><td><code>11111111.11100000.00000000.00000000</code></td><td><code>198.160.0.0 – 198.191.255.255</code></td></tr>
+            <tr><td><code>/10</code></td><td class="number">22</td><td class="number">4,194,304</td><td><code>255.192.0.0</code></td><td><code>11111111.11000000.00000000.00000000</code></td><td><code>198.128.0.0 – 198.191.255.255</code></td></tr>
+            <tr><td><code>/9</code></td><td class="number">23</td><td class="number">8,388,608</td><td><code>255.128.0.0</code></td><td><code>11111111.10000000.00000000.00000000</code></td><td><code>198.128.0.0 – 198.255.255.255</code></td></tr>
+            <tr><td><code>/8</code></td><td class="number">24</td><td class="number">16,777,216</td><td><code>255.0.0.0</code></td><td><code>11111111.00000000.00000000.00000000</code></td><td><code>198.0.0.0 – 198.255.255.255</code></td></tr>
+            <tr><td><code>/7</code></td><td class="number">25</td><td class="number">33,554,432</td><td><code>254.0.0.0</code></td><td><code>11111110.00000000.00000000.00000000</code></td><td><code>198.0.0.0 – 199.255.255.255</code></td></tr>
+            <tr><td><code>/6</code></td><td class="number">26</td><td class="number">67,108,864</td><td><code>252.0.0.0</code></td><td><code>11111100.00000000.00000000.00000000</code></td><td><code>196.0.0.0 – 199.255.255.255</code></td></tr>
+            <tr><td><code>/5</code></td><td class="number">27</td><td class="number">134,217,728</td><td><code>248.0.0.0</code></td><td><code>11111000.00000000.00000000.00000000</code></td><td><code>192.0.0.0 – 199.255.255.255</code></td></tr>
+            <tr><td><code>/4</code></td><td class="number">28</td><td class="number">268,435,456</td><td><code>240.0.0.0</code></td><td><code>11110000.00000000.00000000.00000000</code></td><td><code>192.0.0.0 – 207.255.255.255</code></td></tr>
+            <tr><td><code>/3</code></td><td class="number">29</td><td class="number">536,870,912</td><td><code>224.0.0.0</code></td><td><code>11100000.00000000.00000000.00000000</code></td><td><code>192.0.0.0 – 223.255.255.255</code></td></tr>
+            <tr><td><code>/2</code></td><td class="number">30</td><td class="number">1,073,741,824</td><td><code>192.0.0.0</code></td><td><code>11000000.00000000.00000000.00000000</code></td><td><code>192.0.0.0 – 255.255.255.255</code></td></tr>
+            <tr><td><code>/1</code></td><td class="number">31</td><td class="number">2,147,483,648</td><td><code>128.0.0.0</code></td><td><code>10000000.00000000.00000000.00000000</code></td><td><code>128.0.0.0 – 255.255.255.255</code></td></tr>
+            <tr><td><code>/0</code></td><td class="number">32</td><td class="number">4,294,967,296</td><td><code>0.0.0.0</code></td><td><code>00000000.00000000.00000000.00000000</code></td><td><code>0.0.0.0 – 255.255.255.255</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="tool-heading">
+      <h2 id="tool-heading">Additional tool</h2>
+      <p><a href="https://www.ipaddressguide.com/cidr">CIDR to IPv4 Address Range Utility</a></p>
+    </section>
+
+    <footer>Created by James Joseph Santos.</footer>
+  </main>
+</body>
+</html>
