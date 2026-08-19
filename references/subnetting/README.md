@@ -2,6 +2,8 @@
 
 Quick reference for IPv4 CIDR prefixes, subnet masks, address counts, and example address ranges.
 
+[View the rendered HTML version](https://jjrs07.github.io/restart_batch_29/references/subnetting/)
+
 ## How to read the table
 
 - **Prefix bits** identify the network portion of the address.
