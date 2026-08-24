@@ -16,6 +16,8 @@
       --accent: #0969da;
       --header: #ddf4ff;
       --stripe: #f6f8fa;
+      --aws-row: #dafbe1;
+      --aws-text: #116329;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -28,6 +30,8 @@
         --accent: #58a6ff;
         --header: #1f3a52;
         --stripe: #1c2128;
+        --aws-row: #173b25;
+        --aws-text: #7ee787;
       }
     }
 
@@ -87,8 +91,16 @@
     }
 
     tbody tr:nth-child(even) { background: var(--stripe); }
+    tbody tr.aws-supported { background: var(--aws-row); }
     tbody tr:last-child td { border-bottom: 0; }
     .number { text-align: right; }
+    .aws-badge {
+      margin-left: .4rem;
+      color: var(--aws-text);
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .03em;
+    }
     code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
     a { color: var(--accent); }
 
@@ -130,6 +142,7 @@
 
     <section aria-labelledby="reference-heading">
       <h2 id="reference-heading">CIDR reference</h2>
+      <p><strong>Green rows marked AWS VPC ✓</strong> are valid IPv4 CIDR sizes for both VPCs and subnets: <code>/16</code> through <code>/28</code>. AWS reserves the first four and last IPv4 address in every subnet. See <a href="https://docs.aws.amazon.com/vpc/latest/userguide/subnet-sizing.html">AWS subnet CIDR sizing</a>.</p>
       <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable CIDR reference table">
         <table>
           <thead>
@@ -140,19 +153,19 @@
             <tr><td><code>/31</code></td><td class="number">1</td><td class="number">2</td><td><code>255.255.255.254</code></td><td><code>11111111.11111111.11111111.11111110</code></td><td><code>198.168.0.0 – 198.168.0.1</code></td></tr>
             <tr><td><code>/30</code></td><td class="number">2</td><td class="number">4</td><td><code>255.255.255.252</code></td><td><code>11111111.11111111.11111111.11111100</code></td><td><code>198.168.0.0 – 198.168.0.3</code></td></tr>
             <tr><td><code>/29</code></td><td class="number">3</td><td class="number">8</td><td><code>255.255.255.248</code></td><td><code>11111111.11111111.11111111.11111000</code></td><td><code>198.168.0.0 – 198.168.0.7</code></td></tr>
-            <tr><td><code>/28</code></td><td class="number">4</td><td class="number">16</td><td><code>255.255.255.240</code></td><td><code>11111111.11111111.11111111.11110000</code></td><td><code>198.168.0.0 – 198.168.0.15</code></td></tr>
-            <tr><td><code>/27</code></td><td class="number">5</td><td class="number">32</td><td><code>255.255.255.224</code></td><td><code>11111111.11111111.11111111.11100000</code></td><td><code>198.168.0.0 – 198.168.0.31</code></td></tr>
-            <tr><td><code>/26</code></td><td class="number">6</td><td class="number">64</td><td><code>255.255.255.192</code></td><td><code>11111111.11111111.11111111.11000000</code></td><td><code>198.168.0.0 – 198.168.0.63</code></td></tr>
-            <tr><td><code>/25</code></td><td class="number">7</td><td class="number">128</td><td><code>255.255.255.128</code></td><td><code>11111111.11111111.11111111.10000000</code></td><td><code>198.168.0.0 – 198.168.0.127</code></td></tr>
-            <tr><td><code>/24</code></td><td class="number">8</td><td class="number">256</td><td><code>255.255.255.0</code></td><td><code>11111111.11111111.11111111.00000000</code></td><td><code>198.168.0.0 – 198.168.0.255</code></td></tr>
-            <tr><td><code>/23</code></td><td class="number">9</td><td class="number">512</td><td><code>255.255.254.0</code></td><td><code>11111111.11111111.11111110.00000000</code></td><td><code>198.168.0.0 – 198.168.1.255</code></td></tr>
-            <tr><td><code>/22</code></td><td class="number">10</td><td class="number">1,024</td><td><code>255.255.252.0</code></td><td><code>11111111.11111111.11111100.00000000</code></td><td><code>198.168.0.0 – 198.168.3.255</code></td></tr>
-            <tr><td><code>/21</code></td><td class="number">11</td><td class="number">2,048</td><td><code>255.255.248.0</code></td><td><code>11111111.11111111.11111000.00000000</code></td><td><code>198.168.0.0 – 198.168.7.255</code></td></tr>
-            <tr><td><code>/20</code></td><td class="number">12</td><td class="number">4,096</td><td><code>255.255.240.0</code></td><td><code>11111111.11111111.11110000.00000000</code></td><td><code>198.168.0.0 – 198.168.15.255</code></td></tr>
-            <tr><td><code>/19</code></td><td class="number">13</td><td class="number">8,192</td><td><code>255.255.224.0</code></td><td><code>11111111.11111111.11100000.00000000</code></td><td><code>198.168.0.0 – 198.168.31.255</code></td></tr>
-            <tr><td><code>/18</code></td><td class="number">14</td><td class="number">16,384</td><td><code>255.255.192.0</code></td><td><code>11111111.11111111.11000000.00000000</code></td><td><code>198.168.0.0 – 198.168.63.255</code></td></tr>
-            <tr><td><code>/17</code></td><td class="number">15</td><td class="number">32,768</td><td><code>255.255.128.0</code></td><td><code>11111111.11111111.10000000.00000000</code></td><td><code>198.168.0.0 – 198.168.127.255</code></td></tr>
-            <tr><td><code>/16</code></td><td class="number">16</td><td class="number">65,536</td><td><code>255.255.0.0</code></td><td><code>11111111.11111111.00000000.00000000</code></td><td><code>198.168.0.0 – 198.168.255.255</code></td></tr>
+            <tr class="aws-supported"><td><code>/28</code><span class="aws-badge">AWS VPC ✓</span></td><td class="number">4</td><td class="number">16</td><td><code>255.255.255.240</code></td><td><code>11111111.11111111.11111111.11110000</code></td><td><code>198.168.0.0 – 198.168.0.15</code></td></tr>
+            <tr class="aws-supported"><td><code>/27</code><span class="aws-badge">AWS VPC ✓</span></td><td class="number">5</td><td class="number">32</td><td><code>255.255.255.224</code></td><td><code>11111111.11111111.11111111.11100000</code></td><td><code>198.168.0.0 – 198.168.0.31</code></td></tr>
+            <tr class="aws-supported"><td><code>/26</code><span class="aws-badge">AWS VPC ✓</span></td><td class="number">6</td><td class="number">64</td><td><code>255.255.255.192</code></td><td><code>11111111.11111111.11111111.11000000</code></td><td><code>198.168.0.0 – 198.168.0.63</code></td></tr>
+            <tr class="aws-supported"><td><code>/25</code><span class="aws-badge">AWS VPC ✓</span></td><td class="number">7</td><td class="number">128</td><td><code>255.255.255.128</code></td><td><code>11111111.11111111.11111111.10000000</code></td><td><code>198.168.0.0 – 198.168.0.127</code></td></tr>
+            <tr class="aws-supported"><td><code>/24</code><span class="aws-badge">AWS VPC ✓</span></td><td class="number">8</td><td class="number">256</td><td><code>255.255.255.0</code></td><td><code>11111111.11111111.11111111.00000000</code></td><td><code>198.168.0.0 – 198.168.0.255</code></td></tr>
+            <tr class="aws-supported"><td><code>/23</code><span class="aws-badge">AWS VPC ✓</span></td><td class="number">9</td><td class="number">512</td><td><code>255.255.254.0</code></td><td><code>11111111.11111111.11111110.00000000</code></td><td><code>198.168.0.0 – 198.168.1.255</code></td></tr>
+            <tr class="aws-supported"><td><code>/22</code><span class="aws-badge">AWS VPC ✓</span></td><td class="number">10</td><td class="number">1,024</td><td><code>255.255.252.0</code></td><td><code>11111111.11111111.11111100.00000000</code></td><td><code>198.168.0.0 – 198.168.3.255</code></td></tr>
+            <tr class="aws-supported"><td><code>/21</code><span class="aws-badge">AWS VPC ✓</span></td><td class="number">11</td><td class="number">2,048</td><td><code>255.255.248.0</code></td><td><code>11111111.11111111.11111000.00000000</code></td><td><code>198.168.0.0 – 198.168.7.255</code></td></tr>
+            <tr class="aws-supported"><td><code>/20</code><span class="aws-badge">AWS VPC ✓</span></td><td class="number">12</td><td class="number">4,096</td><td><code>255.255.240.0</code></td><td><code>11111111.11111111.11110000.00000000</code></td><td><code>198.168.0.0 – 198.168.15.255</code></td></tr>
+            <tr class="aws-supported"><td><code>/19</code><span class="aws-badge">AWS VPC ✓</span></td><td class="number">13</td><td class="number">8,192</td><td><code>255.255.224.0</code></td><td><code>11111111.11111111.11100000.00000000</code></td><td><code>198.168.0.0 – 198.168.31.255</code></td></tr>
+            <tr class="aws-supported"><td><code>/18</code><span class="aws-badge">AWS VPC ✓</span></td><td class="number">14</td><td class="number">16,384</td><td><code>255.255.192.0</code></td><td><code>11111111.11111111.11000000.00000000</code></td><td><code>198.168.0.0 – 198.168.63.255</code></td></tr>
+            <tr class="aws-supported"><td><code>/17</code><span class="aws-badge">AWS VPC ✓</span></td><td class="number">15</td><td class="number">32,768</td><td><code>255.255.128.0</code></td><td><code>11111111.11111111.10000000.00000000</code></td><td><code>198.168.0.0 – 198.168.127.255</code></td></tr>
+            <tr class="aws-supported"><td><code>/16</code><span class="aws-badge">AWS VPC ✓</span></td><td class="number">16</td><td class="number">65,536</td><td><code>255.255.0.0</code></td><td><code>11111111.11111111.00000000.00000000</code></td><td><code>198.168.0.0 – 198.168.255.255</code></td></tr>
             <tr><td><code>/15</code></td><td class="number">17</td><td class="number">131,072</td><td><code>255.254.0.0</code></td><td><code>11111111.11111110.00000000.00000000</code></td><td><code>198.168.0.0 – 198.169.255.255</code></td></tr>
             <tr><td><code>/14</code></td><td class="number">18</td><td class="number">262,144</td><td><code>255.252.0.0</code></td><td><code>11111111.11111100.00000000.00000000</code></td><td><code>198.168.0.0 – 198.171.255.255</code></td></tr>
             <tr><td><code>/13</code></td><td class="number">19</td><td class="number">524,288</td><td><code>255.248.0.0</code></td><td><code>11111111.11111000.00000000.00000000</code></td><td><code>198.168.0.0 – 198.175.255.255</code></td></tr>
