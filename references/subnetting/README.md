@@ -56,6 +56,154 @@ Quick reference for IPv4 CIDR prefixes, subnet masks, address counts, and exampl
 
 [CIDR to IPv4 Address Range Utility](https://www.ipaddressguide.com/cidr)
 
+## Practice exercises: Client subnet requirements
+
+For each scenario, use **Variable Length Subnet Masking (VLSM)** and allocate the
+largest subnet first. Choose the smallest subnet that meets each requirement.
+
+> [!IMPORTANT]
+> In an AWS VPC subnet, AWS reserves five IP addresses. For these exercises,
+> calculate usable hosts as `total addresses - 5`.
+
+For every subnet, identify:
+
+1. Subnet name and type (public or private)
+2. Network address and CIDR prefix
+3. Subnet mask
+4. Full address range
+5. Number of usable AWS host addresses
+
+### Associate the subnet plan with an AWS VPC
+
+After solving a scenario on paper, build it in the **Amazon VPC console**. Use
+the VPC CIDR and subnet CIDRs from that scenario.
+
+1. Open **VPC** → **Your VPCs** and create a VPC using the scenario's VPC CIDR.
+   Use a name such as `scenario-1-vpc`.
+2. Open **Subnets** and create every required subnet inside that VPC. Give each
+   subnet a descriptive name, such as `scenario-1-public`, `scenario-1-hr`, and
+   `scenario-1-sales`.
+3. Choose an Availability Zone for each subnet. A subnet exists entirely within
+   one Availability Zone.
+4. Create and attach an **internet gateway** to the VPC.
+5. Create a route table named `public-rt`, add the route below, and explicitly
+   associate only the public subnet or subnets with it.
+
+   | Destination | Target |
+   |---|---|
+   | `0.0.0.0/0` | The attached internet gateway |
+
+6. Create a route table named `private-rt` and explicitly associate all private
+   subnets with it. For this exercise, leave only the automatically created
+   `local` route; do not add a route to the internet gateway.
+7. For each public subnet, enable **auto-assign public IPv4 address** if EC2
+   instances launched there need public IPv4 addresses.
+8. Open each route table's **Subnet associations** tab and verify that every
+   subnet is associated with the intended route table.
+
+> [!NOTE]
+> A subnet is public because its route table has a direct route to an internet
+> gateway—not because its name contains the word `public`. A private subnet can
+> use a NAT gateway for outbound internet access, but NAT gateways incur charges
+> and are not required for this subnetting exercise.
+
+#### AWS verification checklist
+
+- The VPC CIDR matches the selected scenario.
+- Every subnet CIDR is inside the VPC CIDR and no subnet CIDRs overlap.
+- Public subnets are associated with `public-rt`.
+- Private subnets are associated with `private-rt`.
+- Only `public-rt` has the `0.0.0.0/0` route to the internet gateway.
+- The internet gateway is attached to the correct VPC.
+
+> [!WARNING]
+> Delete the practice VPC resources after the exercise. If you add EC2 instances
+> or a NAT gateway, they can generate AWS charges.
+
+AWS references: [Create a VPC](https://docs.aws.amazon.com/vpc/latest/userguide/create-vpc.html),
+[Create subnets](https://docs.aws.amazon.com/vpc/latest/userguide/create-subnets.html),
+and [Configure route-table associations](https://docs.aws.amazon.com/vpc/latest/userguide/subnet-route-tables.html).
+
+### Scenario 1: Small consulting company
+
+A consulting company is moving its first application to AWS. The client has
+been assigned the VPC CIDR block `10.10.0.0/23` and needs:
+
+- One **public subnet** for web servers and load balancers: **100 hosts**
+- One **private HR subnet**: **100 hosts**
+- One **private Sales subnet**: **100 hosts**
+
+Design three non-overlapping subnets inside the assigned VPC block.
+
+### Scenario 2: Online retail company
+
+An online retailer has been assigned the VPC CIDR block `10.20.0.0/22`. The
+client needs:
+
+- One **public web subnet**: **200 hosts**
+- One **private application subnet**: **120 hosts**
+- One **private database subnet**: **50 hosts**
+- One **private management subnet**: **20 hosts**
+
+Design four non-overlapping subnets and state how much address space remains
+unallocated.
+
+### Scenario 3: Regional office network
+
+A company is building an AWS network for a regional office. The assigned VPC
+CIDR block is `172.16.0.0/22`. The client needs:
+
+- One **private Operations subnet**: **300 hosts**
+- One **private Finance subnet**: **120 hosts**
+- One **private HR subnet**: **60 hosts**
+- One **public services subnet**: **25 hosts**
+- One **private monitoring subnet**: **10 hosts**
+
+Design five non-overlapping subnets. Allocate them from the beginning of the
+VPC address range, largest to smallest.
+
+<details>
+<summary><strong>Answer key</strong></summary>
+
+### Scenario 1 solution
+
+Each requirement needs a `/25`, which provides 128 total addresses and 123
+usable AWS host addresses.
+
+| Subnet | Network/CIDR | Subnet mask | Full range | Usable AWS hosts |
+|---|---|---|---|---:|
+| Public | `10.10.0.0/25` | `255.255.255.128` | `10.10.0.0` – `10.10.0.127` | 123 |
+| HR | `10.10.0.128/25` | `255.255.255.128` | `10.10.0.128` – `10.10.0.255` | 123 |
+| Sales | `10.10.1.0/25` | `255.255.255.128` | `10.10.1.0` – `10.10.1.127` | 123 |
+
+The unused range is `10.10.1.128` – `10.10.1.255`.
+
+### Scenario 2 solution
+
+| Subnet | Network/CIDR | Subnet mask | Full range | Usable AWS hosts |
+|---|---|---|---|---:|
+| Public web | `10.20.0.0/24` | `255.255.255.0` | `10.20.0.0` – `10.20.0.255` | 251 |
+| Application | `10.20.1.0/25` | `255.255.255.128` | `10.20.1.0` – `10.20.1.127` | 123 |
+| Database | `10.20.1.128/26` | `255.255.255.192` | `10.20.1.128` – `10.20.1.191` | 59 |
+| Management | `10.20.1.192/27` | `255.255.255.224` | `10.20.1.192` – `10.20.1.223` | 27 |
+
+The unallocated ranges are `10.20.1.224` – `10.20.1.255` and
+`10.20.2.0` – `10.20.3.255`, for a total of 544 addresses.
+
+### Scenario 3 solution
+
+| Subnet | Network/CIDR | Subnet mask | Full range | Usable AWS hosts |
+|---|---|---|---|---:|
+| Operations | `172.16.0.0/23` | `255.255.254.0` | `172.16.0.0` – `172.16.1.255` | 507 |
+| Finance | `172.16.2.0/25` | `255.255.255.128` | `172.16.2.0` – `172.16.2.127` | 123 |
+| HR | `172.16.2.128/25` | `255.255.255.128` | `172.16.2.128` – `172.16.2.255` | 123 |
+| Public services | `172.16.3.0/27` | `255.255.255.224` | `172.16.3.0` – `172.16.3.31` | 27 |
+| Monitoring | `172.16.3.32/28` | `255.255.255.240` | `172.16.3.32` – `172.16.3.47` | 11 |
+
+The unused range is `172.16.3.48` – `172.16.3.255`.
+
+</details>
+
 ---
 
 Created by James Joseph Santos.
